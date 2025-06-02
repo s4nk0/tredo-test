@@ -1,61 +1,40 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+Задача:
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# PHP/Laravel Assignment
 
-## About Laravel
+Необходимо разработать систему для отправки Push-уведомлений на мобильные устройства пользователей. Система должна включать в себя регистрацию устройств, создание уведомлений через панели-управления и отправку сообщений через Firebase.
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+1. **API для регистрации устройства**:
+    - Создать API-метод для регистрации устройства по уникальному номеру устройства, которое будет связано с пользователем в базе данных. Один пользователь может иметь одно или более устройств.
+    - Необходимые параметры: идентификатор устройства (например, Firebase Token), ID пользователя.€2
+    - Реализовать валидацию данных и защиту от дублирования записей для одного устройства и пользователя.
+2. **Интеграция с Firebase для отправки Push-уведомлений**:
+    - Подключить Firebase Cloud Messaging (FCM) для отправки Push-уведомлений на зарегистрированные устройства.
+    - Реализовать механизм отправки уведомлений через стандартную очередь Laravel (использовать механизм очередей для асинхронной отправки сообщений).
+    - При отправке уведомления необходимо сохранять информацию в базе данных: устройство, тело сообщения и статуса (например, “отправлено”, “ошибка”, “доставлено”).
+3. **Админ-панель на Filament**:
+    - Разработать интерфейс на Filament для создания новых уведомлений.
+    - Администратор должен иметь возможность:
+        - Создавать уведомление, указав: текст, дату и время отправки.
+        - После создания нового уведомления оно должно быть отправлено на каждое зарегистрированное устройство в системе в указанное дату и время.
+4. **База данных и отчётность**:
+    - Каждая отправка уведомления должна создавать запись в базе данных, включающую статус отправки (например, успешно или с ошибкой).
+    - Должна быть возможность просматривать историю отправленных уведомлений через админку, включая статус для каждого устройства.
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+**Критерии оценки:**
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- Чистота и структурированность кода
+- Использование очередей Laravel
+- Интеграция с Firebase
+- Реализация API и админ-панели на Filament
+- Валидация данных и обработка ошибок
+- Оптимизация и возможность масштабирования
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+# API endpoint для регистрации девайса
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+curl --location '127.0.0.1:8000/api/register/device' \
+--header 'Accept: application/json' \
+--form 'device_id="12321321123"' \
+--form 'user_id="1"'
